@@ -23,7 +23,7 @@ def login():
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token), 200
 
-@app.route('/api//user', methods=['POST'])
+@app.route('/api/user', methods=['POST'])
 @jwt_required()
 def set_user():
     username = request.json.get('username')
@@ -35,7 +35,7 @@ def set_user():
     connection.close()
     return jsonify(message='User set'), 200
 
-@app.route('/api//user', methods=['GET'])
+@app.route('/api/user', methods=['GET'])
 @jwt_required()
 def get_user():
     connection = get_db_connection()
