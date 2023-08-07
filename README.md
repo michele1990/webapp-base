@@ -18,7 +18,7 @@ This project consists of a React frontend, Flask backend, PostgreSQL database, a
    git clone https://github.com/michele1990/webapp-base.git
 ```
 ```bash
-   cd yourproject
+   cd webapp-base
 ```
 
 2. Build the Docker containers
