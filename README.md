@@ -15,7 +15,7 @@ This project consists of a React frontend, Flask backend, PostgreSQL database, a
 
 1. Clone the repository
 ```bash
-   git clone https://github.com/yourusername/yourproject.git
+   git clone https://github.com/michele1990/webapp-base.git
 ```
 ```bash
    cd yourproject
