@@ -1,42 +1,53 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-// const API_BASE_URL = 'http://localhost:5001/api';
-
-
 function App() {
   const [username, setUsername] = useState('');
-  const [token, setToken] = useState('');
   const [greeting, setGreeting] = useState('');
+  const [users, setUsers] = useState([]);
+  const [token, setToken] = useState(null);
 
-  const handleAuthenticate = async () => {
-    const tokenResponse = await axios.post('/api/login', { username });
-    setToken(tokenResponse.data.access_token);
-  };
 
-  const handleGetGreeting = async () => {
-    if (!token) {
-      console.log('Not authenticated');
-      return;
+  const handleAuthenticateAndGreet = async () => {
+    try {
+      const response = await axios.post('/api/login', { username });
+  
+      if (response.data.access_token) {
+        setToken(response.data.access_token);
+        // You might want to set the greeting here too based on the response
+        setGreeting(`Hello, ${username}!`);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        setGreeting(error.response.data.message);
+      } else {
+        console.error('Error during authentication', error);
+      }
     }
-
-    const greetingResponse = await axios.get('/api/user', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    setGreeting(greetingResponse.data.message);
   };
+  
+  const handleGetUsers = async () => {
+            try {
+              const response = await axios.get('/api/users', {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              setUsers(response.data.users);
+            } catch (error) {
+              console.error('Error fetching users', error);
+              // You can add additional error handling here if needed
+            }
+          };
+          
+
 
   return (
     
     
     <div className="container-fluid">
-    <link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-  crossorigin="anonymous"
-  />
+    <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous" />
 
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">NorthWestWind.org</a>
@@ -45,6 +56,7 @@ function App() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
+          <li className="nav-item ml-2 navbar-text">{greeting}</li>
             <li className="nav-item">
               <input
                 type="text"
@@ -56,19 +68,30 @@ function App() {
               />
             </li>
             <li className="nav-item ml-2">
-              <button className="btn btn-primary btn-sm" onClick={handleAuthenticate}>
+              <button className="btn btn-primary btn-sm" onClick={handleAuthenticateAndGreet}>
                 Authenticate
               </button>
-            </li>
-            <li className="nav-item ml-2">
-              <button className="btn btn-success btn-sm" onClick={handleGetGreeting}>
-                Get Greeting
-              </button>
-            </li>
-            <li className="nav-item ml-2 navbar-text">{greeting}</li>
+           </li>
+           <li className="nav-item ml-2">
+            <button className="btn btn-info btn-sm" onClick={handleGetUsers}>
+              Get Users
+            </button>
+          </li>
           </ul>
         </div>
       </nav>
+      <div className="container mt-4">
+  {users.length > 0 && (
+      <div className="mb-4">
+        <h3>List of Users:</h3>
+        <ul>
+          {users.map((user, index) => (
+            <li key={index}>{user}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+    </div>
       <div className="container mt-4">
         <div className="row">
           <section className="col-md-4">
@@ -93,3 +116,5 @@ function App() {
 }
 
 export default App;
+
+
