@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 // const API_BASE_URL = 'http://localhost:5001/api';
 
@@ -29,10 +28,18 @@ function App() {
   };
 
   return (
+    
+    
     <div className="container-fluid">
+    <link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+  crossorigin="anonymous"
+  />
 
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">NorthWestWind</a>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="#">NorthWestWind.org</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
