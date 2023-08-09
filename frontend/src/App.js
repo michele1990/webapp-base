@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { GoogleLogin } from 'react-google-login';
+
 
 function App() {
   const [username, setUsername] = useState('');
@@ -35,6 +37,18 @@ function App() {
             } catch (error) {
               console.error('Error fetching users', error);
               // You can add additional error handling here if needed
+            }
+          };
+  const handleGoogleLogin = async (googleResponse) => {
+            try {
+              // print on screen the google response
+              console.log(googleResponse);
+              const response = await axios.post('/api/google_login', { tokenId: googleResponse.tokenId });
+              // Handle successful login (store token, update UI, etc.)
+            } catch (error) {
+              // print on screen the error
+              console.log(error);
+              console.error('Error fetching users', error);
             }
           };
           
@@ -77,6 +91,13 @@ function App() {
               Get Users
             </button>
           </li>
+          <li>
+            <GoogleLogin
+            clientId="651236571845-lv9cr9m7cve4mb9hvl92dmc85rqkq2n3.apps.googleusercontent.com"
+            buttonText="Login with Google"
+            onSuccess={response => handleGoogleLogin(response)}
+            onFailure={response => console.error('Google Login Failed:', response)}/>
+            </li>
           </ul>
         </div>
       </nav>

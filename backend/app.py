@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from google.oauth2 import id_token
+from google.auth.transport import requests
 import psycopg2
+
+GOOGLE_CLIENT_ID = '651236571845-lv9cr9m7cve4mb9hvl92dmc85rqkq2n3.apps.googleusercontent.com'
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Replace with a secure key
@@ -35,6 +39,46 @@ def login():
     # If username exists, create the access token and return greeting
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token, message=f'Hello, {username}!'), 200
+
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
+GOOGLE_CLIENT_ID = 'your-google-client-id'
+
+@app.route('/api/google_login', methods=['POST'])
+def google_login():
+    try:
+        google_token = request.json.get('tokenId')
+        # Verify Google token
+        google_response = id_token.verify_oauth2_token(google_token, requests.Request(), GOOGLE_CLIENT_ID)
+        if 'iss' not in google_response or google_response['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+            raise ValueError('Wrong issuer.')
+
+        google_id = google_response['sub']
+        email = google_response['email']  # You can use the email as the username if you prefer
+
+        # Check if the user exists in the database by Google ID
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT username FROM users WHERE google_id = %s", (google_id,))
+        result = cursor.fetchone()
+
+        if result is None:
+            # Register the user if they don't exist
+            cursor.execute("INSERT INTO users (username, google_id) VALUES (%s, %s) RETURNING username", (email, google_id))
+            result = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
+
+        # Create the access token
+        access_token = create_access_token(identity=result[0])
+        return jsonify(access_token=access_token, message=f'Hello, {result[0]}!'), 200
+
+    except ValueError:
+        # Handle token verification failure
+        return jsonify(message="Invalid Google token"), 403
+
 
 
 
