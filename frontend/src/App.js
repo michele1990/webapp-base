@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { GoogleLogin } from 'react-google-login';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -38,7 +39,10 @@ function App() {
             }
           };
           
-
+  const handleGoogleLogin = async (googleResponse) => {
+            const tokenId = googleResponse.tokenId;
+            // Qui puoi inviare il tokenId al tuo server backend
+          };
 
   return (
     
@@ -57,7 +61,12 @@ function App() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
           <li className="nav-item ml-2 navbar-text">{greeting}</li>
-            <li className="nav-item">
+          <GoogleLogin
+          clientId="651236571845-lv9cr9m7cve4mb9hvl92dmc85rqkq2n3.apps.googleusercontent.com"
+          buttonText="Login with Google"
+          onSuccess={response => handleGoogleLogin(response)}
+          onFailure={response => console.error('Google Login Failed:', response)}/> 
+	  <li className="nav-item">
               <input
                 type="text"
                 className="form-control form-control-sm"
