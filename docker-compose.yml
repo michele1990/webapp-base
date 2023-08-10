@@ -24,18 +24,15 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "8086:80"
+      - "8086:443"
+      - "8080:80"
     depends_on:
       - frontend
       - backend
     volumes:
       - frontend_data:/usr/share/nginx/html
+      - ./nginx/ssl:/etc/nginx/ssl
 
 volumes:
   postgres_data:
   frontend_data:
-
-
-
-
-
