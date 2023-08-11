@@ -25,15 +25,16 @@ services:
     build: ./nginx
     ports:
       - "80:80"
-      - "443:443" # Update this line to expose the 443 port
+      - "443:443"
     depends_on:
       - frontend
       - backend
     volumes:
       - frontend_data:/usr/share/nginx/html
-      - ./nginx/ssl:/etc/nginx/ssl
+      - ./cert_data:/etc/nginx/ssl # Mounting the certificate folder
+
 volumes:
   postgres_data:
   frontend_data:
-  cert_data: # Add this volume to store the certificates
+  # cert_data: removed this line
 
