@@ -43,15 +43,8 @@ export default function Header({ username, setUsername, greeting, setGreeting, t
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item ml-2 navbar-text">{greeting}</li>
-          <GoogleLogin
-            clientId="651236571845-lv9cr9m7cve4mb9hvl92dmc85rqkq2n3.apps.googleusercontent.com"
-            buttonText="Login with Google"
-            onSuccess={response => handleGoogleLogin(response)}
-            onFailure={response => console.error('Google Login Failed:', response)}
-          />
+      <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul className="navbar-nav">
           <li className="nav-item">
             <input
               type="text"
@@ -63,16 +56,23 @@ export default function Header({ username, setUsername, greeting, setGreeting, t
             />
           </li>
           <li className="nav-item ml-2">
-            <button className="btn btn-primary btn-sm" onClick={handleAuthenticateAndGreet}>
+            <button className="btn btn-primary btn-sm btn-dark" onClick={handleAuthenticateAndGreet}>
               Authenticate
             </button>
           </li>
           <li className="nav-item ml-2">
-            <button className="btn btn-info btn-sm" onClick={handleGetUsers}>
+            <button className="btn btn-info btn-sm btn-dark" onClick={handleGetUsers}>
               Get Users
             </button>
           </li>
+          <li className="nav-item ml-2 navbar-text">{greeting}</li>
         </ul>
+        <GoogleLogin
+          clientId="651236571845-lv9cr9m7cve4mb9hvl92dmc85rqkq2n3.apps.googleusercontent.com"
+          buttonText="Login with Google"
+          onSuccess={response => handleGoogleLogin(response)}
+          onFailure={response => console.error('Google Login Failed:', response)}
+        />
       </div>
     </nav>
   );
