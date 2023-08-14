@@ -16,10 +16,10 @@ export default function Header({ username, setUsername, greeting, setGreeting, t
         </div>
       )}
       <div className="row text-center mb-3">
-        <nav>
-          <button onClick={() => setActiveSection(1)} className={`btn ${activeSection === 1 ? 'btn-dark' : 'btn-secondary'} mx-2`}>Enchanted Forest</button>
-          <button onClick={() => setActiveSection(2)} className={`btn ${activeSection === 2 ? 'btn-dark' : 'btn-secondary'} mx-2`}>Mystic Mountains</button>
-          <button onClick={() => setActiveSection(3)} className={`btn ${activeSection === 3 ? 'btn-dark' : 'btn-secondary'} mx-2`}>Hidden Caves</button>
+        <nav className="d-flex justify-content-center flex-nowrap">
+          <button onClick={() => setActiveSection(1)} className={`btn ${activeSection === 1 ? 'btn-dark' : 'btn-secondary'} mx-2 text-wrap btn-small-screen`} style={{ fontSize: '0.7rem', maxWidth: '130px' }}>Enchanted<br />Forest</button>
+          <button onClick={() => setActiveSection(2)} className={`btn ${activeSection === 2 ? 'btn-dark' : 'btn-secondary'} mx-2 text-wrap btn-small-screen`} style={{ fontSize: '0.7rem', maxWidth: '130px' }}>Mystic<br />Mountains</button>
+          <button onClick={() => setActiveSection(3)} className={`btn ${activeSection === 3 ? 'btn-dark' : 'btn-secondary'} mx-2 text-wrap btn-small-screen`} style={{ fontSize: '0.7rem', maxWidth: '130px' }}>Hidden<br />Caves</button>
         </nav>
       </div>
       <div className="row justify-content-center">
