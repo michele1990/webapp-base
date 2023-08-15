@@ -10,10 +10,10 @@ export default function Header({
   setGreeting,
   token,
   setToken,
-  users,
   setUsers,
 }) {
   const [form, setForm] = useState(null);
+  const [navbarOpen, setNavbarOpen] = useState(false);
   const [registerData, setRegisterData] = useState({
     username: '',
     email: '',
@@ -145,27 +145,30 @@ export default function Header({
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="#">NorthWestWind.org</a>
-        <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <a className="navbar-brand" href="#">NorthWestWind.org</a>
+        <button className="navbar-toggler" type="button" onClick={() => setNavbarOpen(!navbarOpen)}>
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className={`collapse navbar-collapse justify-content-between ${navbarOpen ? 'show' : ''}`} id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item ml-2 mr-2">
-            <button className="btn btn-primary btn-sm btn-dark" onClick={() => toggleForm('login')}>
-              Login
-            </button>
-          </li>
-          <li className="nav-item ml-2">
-            <button className="btn btn-info btn-sm btn-dark" onClick={() => toggleForm('register')}>
-              Register
-            </button>
-          </li>
+              <button className="btn btn-primary btn-sm btn-dark" onClick={() => toggleForm('login')}>
+                Login
+              </button>
+            </li>
+            <li className="nav-item ml-2">
+              <button className="btn btn-info btn-sm btn-dark" onClick={() => toggleForm('register')}>
+                Register
+              </button>
+            </li>
             <li className="nav-item ml-2 navbar-text">{greeting}</li>
           </ul>
           <GoogleLogin
-          clientId="651236571845-lv9cr9m7cve4mb9hvl92dmc85rqkq2n3.apps.googleusercontent.com"
-          buttonText="Login with Google"
-          onSuccess={response => handleGoogleLogin(response)}
-          onFailure={response => console.error('Google Login Failed:', response)}
-        />
+            clientId="651236571845-lv9cr9m7cve4mb9hvl92dmc85rqkq2n3.apps.googleusercontent.com"
+            buttonText="Login with Google"
+            onSuccess={response => handleGoogleLogin(response)}
+            onFailure={response => console.error('Google Login Failed:', response)}
+          />
         </div>
       </nav>
 
