@@ -19,6 +19,7 @@ export const handleProfileSubmit = async (profileInfo, token, setInfo, setShowPr
       let message;
       if (response.data.message === "  Profile updated successfully") {
         message = `Profile updated successfully!`;
+        setShowProfileForm(false);
       } else {
         message = response.data.message || "Profile update failed!";
       }

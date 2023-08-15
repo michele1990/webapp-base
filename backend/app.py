@@ -103,13 +103,23 @@ def manage_profile(username):
 
     try:
         if request.method == 'GET':
-            cursor.execute("SELECT first_name, last_name, phone, address, about_me FROM profiles WHERE username = %s", (username,))
+            cursor.execute("""
+                SELECT p.first_name, p.last_name, p.phone, p.address, p.about_me
+                FROM profiles p
+                JOIN users u ON p.user_id = u.id
+                WHERE u.username = %s
+            """, (username,))
             profile = cursor.fetchone()
             return jsonify(profile) if profile else jsonify(message="Profile not found"), 404
 
         profile_data = request.json
-        cursor.execute("UPDATE profiles SET first_name=%s, last_name=%s, phone=%s, address=%s, about_me=%s WHERE username=%s",
-                       (profile_data['first_name'], profile_data['last_name'], profile_data['phone'], profile_data['address'], profile_data['about_me'], username))
+        cursor.execute("""
+                UPDATE profiles p
+                SET first_name=%s, last_name=%s, phone=%s, address=%s, about_me=%s
+                FROM users u
+                WHERE p.user_id = u.id AND u.username=%s
+            """, (profile_data['first_name'], profile_data['last_name'], profile_data['phone'], profile_data['address'], profile_data['about_me'], username))
+
         connection.commit()
         return jsonify(message="Profile updated successfully"), 200
 
