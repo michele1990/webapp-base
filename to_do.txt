@@ -1,3 +1,8 @@
+URGENT
+
+1) re organize all state management and function with best practice
+
+
 User MGMT
 
 1) login logout full on
