@@ -1,0 +1,25 @@
+User MGMT
+
+1) login logout full on
+2) profile setting full ok (with picture expected)
+3) create a page where users chan look for other users by name or keyword in bio
+
+
+Google MGMT
+
+1) complete google login front-backend
+
+
+Post - Proposal
+
+1) database - front - back update to post - comment - like 
+2) build a infinite scroll feed 
+
+Notification
+
+1) send email to users when something appens
+
+
+
+
+
