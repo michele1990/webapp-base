@@ -4,25 +4,20 @@ export default function Header() {
 
 return (
   
-<footer className="bg-light text-center py-4 mt-4">
-<footer>
+<footer class="text-center py-4 mt-4 bg-light">
   <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <p>Copyright &copy; 2023 Northwestwind.org</p>
-      </div>
+    <div class="d-flex justify-content-between">
+      <ul class="list-inline mb-0">
+        <li class="list-inline-item"><a href="#">About Us</a></li>
+        <li class="list-inline-item"><a href="#">Contact Us</a></li>
+        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        <li class="list-inline-item"><a href="#">Terms of Service</a></li>
+      </ul>
+      <p class="m-0 text-muted">Copyright &copy; 2023 Northwestwind.org</p>
     </div>
   </div>
 </footer>
-</footer>
+
 
 );
 };

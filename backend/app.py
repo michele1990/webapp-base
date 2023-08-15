@@ -74,22 +74,54 @@ def login():
 
 @app.route('/api/profile', methods=['POST'])
 @jwt_required()
-def update_profile():
-    user_id = get_jwt_identity() # Assuming the user's ID is used as JWT identity
-    profile_data = request.json
-    
+def create_profile():
+    user_id = get_jwt_identity()
     connection = get_db_connection()
     cursor = connection.cursor()
 
+    profile_data = request.json
     try:
         cursor.execute("INSERT INTO profiles (user_id, first_name, last_name, phone, address, about_me) VALUES (%s, %s, %s, %s, %s, %s)",
                        (user_id, profile_data['first_name'], profile_data['last_name'], profile_data['phone'], profile_data['address'], profile_data['about_me']))
         connection.commit()
-        return jsonify(message="Profile updated successfully"), 200
+        return jsonify(message="Profile created successfully"), 200
     except Exception as e:
         connection.rollback()
         print(e)
-        return jsonify(message="Error updating profile"), 400
+        return jsonify(message="Error handling profile"), 400
+    finally:
+        cursor.close()
+        connection.close()
+
+
+@app.route('/api/profile/<username>', methods=['GET', 'PUT'])
+@jwt_required()
+def manage_profile(username):
+    user_id = get_jwt_identity()
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        if request.method == 'GET':
+            cursor.execute("SELECT first_name, last_name, phone, address, about_me FROM profiles WHERE username = %s", (username,))
+            profile = cursor.fetchone()
+            return jsonify(profile) if profile else jsonify(message="Profile not found"), 404
+
+        profile_data = request.json
+        cursor.execute("UPDATE profiles SET first_name=%s, last_name=%s, phone=%s, address=%s, about_me=%s WHERE username=%s",
+                       (profile_data['first_name'], profile_data['last_name'], profile_data['phone'], profile_data['address'], profile_data['about_me'], username))
+        connection.commit()
+        return jsonify(message="Profile updated successfully"), 200
+
+    except Exception as e:
+        connection.rollback()
+        print(e)
+        return jsonify(message="Error handling profile"), 400
+    finally:
+        cursor.close()
+        connection.close()
+
+
 
 
 if __name__ == '__main__':

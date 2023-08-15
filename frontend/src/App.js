@@ -8,12 +8,16 @@ import Header from './components/Header';
 import Body from './components/Body';
 import Footer from './components/Footer';
 
+import { handleLogin, handleRegister, handleLogout } from './utils/authFunctions';
+import {handleProfileSubmit, fetchProfile, updateProfile} from './utils/handleProfile';
+
+
 
 function App() {
   const [username, setUsername] = useState('');
   const [greeting, setGreeting] = useState('');
+  const [info, setInfo] = useState('');
   const [users, setUsers] = useState([]);
-  const [password, setPassword] = useState([]);
   const [token, setToken] = useState(null);
 
 
@@ -30,7 +34,16 @@ function App() {
             token={token}
             setToken={setToken}
             users={users}
-            setUsers={setUsers}></Header>
+            setUsers={setUsers}
+            info={info}
+            setInfo={setInfo}
+            handleLogin={handleLogin}
+            handleRegister={handleRegister}
+            handleProfileSubmit={handleProfileSubmit}
+            handleLogout={handleLogout}
+            fetchProfile={fetchProfile}
+            updateProfile={updateProfile}>
+            </Header>
 
     <Body
             username={username}
