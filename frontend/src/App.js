@@ -13,6 +13,7 @@ function App() {
   const [username, setUsername] = useState('');
   const [greeting, setGreeting] = useState('');
   const [users, setUsers] = useState([]);
+  const [password, setPassword] = useState([]);
   const [token, setToken] = useState(null);
 
 
